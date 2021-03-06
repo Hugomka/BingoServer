@@ -1,6 +1,6 @@
-package Models.Entities;
+package domain.entities;
 
-import Models.Enums.UserRole;
+import domain.enums.UserRole;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -8,6 +8,8 @@ import java.util.UUID;
 @Entity
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(insertable = false, updatable = false, nullable = false)
     protected UUID id;
     protected String username;
     protected String backgroundColor;

@@ -1,4 +1,4 @@
-package Models.Enums;
+package domain.enums;
 
 public enum UserRole {
     Player, Master

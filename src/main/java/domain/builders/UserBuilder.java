@@ -1,6 +1,6 @@
-package Models.Builders;
+package domain.builders;
 
-import Models.Entities.User;
+import domain.entities.User;
 
 import java.awt.*;
 import java.util.UUID;

@@ -1,6 +1,4 @@
-package Models.Entities;
-
-import org.hibernate.annotations.Columns;
+package domain.entities;
 
 import javax.persistence.*;
 import java.util.Random;
@@ -9,6 +7,8 @@ import java.util.UUID;
 @Entity
 public class BingoRow {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(insertable = false, updatable = false, nullable = false)
     protected UUID id;
 
     @ManyToOne
@@ -20,7 +20,7 @@ public class BingoRow {
     @Column(unique = true)
     protected String numbers;
 
-    public BingoRow() {
+    protected BingoRow() {
         Random random = new Random();
         int b = random.nextInt(15) + 1;
         int i = random.nextInt(15) + 16;

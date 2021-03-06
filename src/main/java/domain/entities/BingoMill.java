@@ -1,19 +1,26 @@
-package Models.Entities;
+package domain.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.*;
 
 @Entity
 public class BingoMill {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(insertable = false, updatable = false, nullable = false)
     protected UUID id;
 
     @OneToMany
     public List<BingoCard> bingoCards = new ArrayList<>();
     public String drawNumbers = "";
+
+    public BingoMill() {}
+
+    public UUID getId() { return id; }
+
+    public String getDrawNumbers() {
+        return drawNumbers;
+    }
 
     public void createBingoCard(User user) {
         bingoCards.add(new BingoCard(user));
@@ -34,10 +41,6 @@ public class BingoMill {
 
     public List<BingoCard> getBingoCards() {
         return bingoCards;
-    }
-
-    public String getDrawNumbers() {
-        return drawNumbers;
     }
 }
 

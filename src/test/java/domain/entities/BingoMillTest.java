@@ -1,6 +1,6 @@
-package Models.Entities;
+package domain.entities;
 
-import Models.Builders.UserBuilder;
+import domain.builders.UserBuilder;
 import org.junit.jupiter.api.*;
 import org.springframework.util.Assert;
 

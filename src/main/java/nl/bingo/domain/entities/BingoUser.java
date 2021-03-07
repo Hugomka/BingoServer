@@ -1,6 +1,6 @@
 package nl.bingo.domain.entities;
 
-import nl.bingo.domain.enums.UserRole;
+import nl.bingo.domain.enums.BingoUserRole;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -17,7 +17,7 @@ public class BingoUser {
     protected UUID id;
     protected String username;
     protected String backgroundColor;
-    protected UserRole userRole = UserRole.Player;
+    protected BingoUserRole userRole = BingoUserRole.Player;
 
     public UUID getId() {
         return id;
@@ -31,13 +31,13 @@ public class BingoUser {
         return backgroundColor;
     }
 
-    public UserRole getUserRole() {
+    public BingoUserRole getUserRole() {
         return userRole;
     }
 
     public void switchUserRole() {
-        userRole = userRole == UserRole.Player
-                ? UserRole.Master
-                : UserRole.Player;
+        userRole = userRole == BingoUserRole.Player
+                ? BingoUserRole.Master
+                : BingoUserRole.Player;
     }
 }

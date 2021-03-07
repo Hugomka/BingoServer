@@ -1,6 +1,6 @@
 package nl.bingo.domain.entities;
 
-import nl.bingo.domain.builders.UserBuilder;
+import nl.bingo.domain.builders.BingoUserBuilder;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,7 @@ public class BingoCardTest {
 
     @BeforeEach
     void setUp() {
-        bingoUser = new UserBuilder("UserTest");
+        bingoUser = new BingoUserBuilder("BingoUserTest");
         bingoCard = new BingoCard(bingoUser);
     }
 

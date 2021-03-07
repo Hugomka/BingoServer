@@ -1,6 +1,6 @@
 package nl.bingo.domain.entities;
 
-import nl.bingo.domain.builders.UserBuilder;
+import nl.bingo.domain.builders.BingoUserBuilder;
 import org.junit.jupiter.api.*;
 import org.springframework.util.Assert;
 
@@ -16,7 +16,7 @@ class BingoMillTest {
 
     @BeforeEach
     void setUp() {
-        bingoUser = new UserBuilder("UserTest");
+        bingoUser = new BingoUserBuilder("BingoUserTest");
         bingoMill = new BingoMill();
     }
 

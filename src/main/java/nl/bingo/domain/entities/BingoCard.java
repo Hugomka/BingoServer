@@ -1,4 +1,4 @@
-package domain.entities;
+package nl.bingo.domain.entities;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -11,21 +11,21 @@ public class BingoCard {
     protected UUID id;
 
     @ManyToOne
-    protected User user;
+    protected BingoUser bingoUser;
 
     protected BingoCard() {
     }
 
-    public BingoCard(User user) {
+    public BingoCard(BingoUser bingoUser) {
         this();
-        this.user = user;
+        this.bingoUser = bingoUser;
     }
 
     public UUID getId() {
         return id;
     }
 
-    public User getUser() {
-        return user;
+    public BingoUser getUser() {
+        return bingoUser;
     }
 }

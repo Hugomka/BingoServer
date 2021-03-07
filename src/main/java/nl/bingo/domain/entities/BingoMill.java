@@ -1,4 +1,4 @@
-package domain.entities;
+package nl.bingo.domain.entities;
 
 import javax.persistence.*;
 import java.util.*;
@@ -22,8 +22,8 @@ public class BingoMill {
         return drawNumbers;
     }
 
-    public void createBingoCard(User user) {
-        bingoCards.add(new BingoCard(user));
+    public void createBingoCard(BingoUser bingoUser) {
+        bingoCards.add(new BingoCard(bingoUser));
     }
 
     public int drawNumber() {

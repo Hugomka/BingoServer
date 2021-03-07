@@ -1,4 +1,4 @@
-package domain.entities;
+package nl.bingo.domain.entities;
 
 import javax.persistence.*;
 import java.util.Random;

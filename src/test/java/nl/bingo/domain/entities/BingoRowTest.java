@@ -1,4 +1,4 @@
-package domain.entities;
+package nl.bingo.domain.entities;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

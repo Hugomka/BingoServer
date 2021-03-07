@@ -1,6 +1,6 @@
-package domain.entities;
+package nl.bingo.domain.entities;
 
-import domain.builders.UserBuilder;
+import nl.bingo.domain.builders.UserBuilder;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,12 +11,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class BingoCardTest {
     private BingoCard bingoCard;
-    private User user;
+    private BingoUser bingoUser;
 
     @BeforeEach
     void setUp() {
-        user = new UserBuilder("UserTest");
-        bingoCard = new BingoCard(user);
+        bingoUser = new UserBuilder("UserTest");
+        bingoCard = new BingoCard(bingoUser);
     }
 
     @AfterEach
@@ -31,7 +31,7 @@ public class BingoCardTest {
 
     @Test
     void getUser() {
-        User user = bingoCard.getUser();
-        assertNotNull(user);
+        BingoUser bingoUser = bingoCard.getUser();
+        assertNotNull(bingoUser);
     }
 }

@@ -1,6 +1,6 @@
-package domain.entities;
+package nl.bingo.domain.entities;
 
-import domain.builders.UserBuilder;
+import nl.bingo.domain.builders.UserBuilder;
 import org.junit.jupiter.api.*;
 import org.springframework.util.Assert;
 
@@ -12,11 +12,11 @@ import java.util.List;
 class BingoMillTest {
 
     BingoMill bingoMill;
-    User user;
+    BingoUser bingoUser;
 
     @BeforeEach
     void setUp() {
-        user = new UserBuilder("UserTest");
+        bingoUser = new UserBuilder("UserTest");
         bingoMill = new BingoMill();
     }
 
@@ -26,7 +26,7 @@ class BingoMillTest {
 
     @Test
     void createBingoCard() {
-        bingoMill.createBingoCard(user);
+        bingoMill.createBingoCard(bingoUser);
         Assert.isTrue(bingoMill.getBingoCards().size() > 0, "createBingoCard");
     }
 

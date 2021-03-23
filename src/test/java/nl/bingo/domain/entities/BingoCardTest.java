@@ -1,36 +1,37 @@
 package nl.bingo.domain.entities;
 
+import nl.bingo.domain.builders.BingoCardBuilder;
 import nl.bingo.domain.builders.BingoUserBuilder;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 public class BingoCardTest {
     private BingoCard bingoCard;
     private BingoUser bingoUser;
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         bingoUser = new BingoUserBuilder("BingoUserTest");
-        bingoCard = new BingoCard(bingoUser);
+        bingoCard = new BingoCardBuilder(bingoUser);
     }
 
-    @AfterEach
-    void tearDown() {
+    @After
+    public void tearDown() {
     }
 
     @Test
-    void getId() {
+    public void getId() {
         UUID id = bingoCard.getId();
         assertNotNull(id);
     }
 
     @Test
-    void getUser() {
+    public void getUser() {
         BingoUser bingoUser = bingoCard.getUser();
         assertNotNull(bingoUser);
     }

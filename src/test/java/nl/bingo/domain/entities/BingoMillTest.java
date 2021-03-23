@@ -1,45 +1,45 @@
 package nl.bingo.domain.entities;
 
+import nl.bingo.domain.builders.BingoMillBuilder;
 import nl.bingo.domain.builders.BingoUserBuilder;
-import org.junit.jupiter.api.*;
-import org.springframework.util.Assert;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import static org.junit.Assert.*;
 
+public class BingoMillTest {
 
-class BingoMillTest {
+    private BingoMill bingoMill;
 
-    BingoMill bingoMill;
-    BingoUser bingoUser;
-
-    @BeforeEach
-    void setUp() {
-        bingoUser = new BingoUserBuilder("BingoUserTest");
-        bingoMill = new BingoMill();
+    @Before
+    public void setUp() {
+        bingoMill = new BingoMillBuilder();
     }
 
-    @AfterEach
-    void tearDown() {
+    @After
+    public void tearDown() {
     }
 
     @Test
-    void createBingoCard() {
-        bingoMill.createBingoCard(bingoUser);
-        Assert.isTrue(bingoMill.getBingoCards().size() > 0, "createBingoCard");
+    public void getId() {
+        assertNotNull(bingoMill.getId());
     }
 
     @Test
-    void drawNumber() {
-        List<Integer> drawNumbers = new ArrayList<>();
-        for (int i = 0; i < 75; i++) {
-            int drawNumber = bingoMill.drawNumber();
-            drawNumbers.add(drawNumber);
-            Assert.hasText("#" + drawNumber + ";", bingoMill.drawNumbers);
-            Assert.isTrue(Collections.frequency(drawNumbers, drawNumber) == 1, "Check duplicated numbers");
-        }
-        Assert.isTrue(drawNumbers.size() == 75, "Check if 75 numbers are drawn");
-        System.out.print("Drawn numbers:" + drawNumbers);
+    public void getDrawNumbers() {
+        assertNotNull(bingoMill.getDrawNumbers());
+    }
+
+    @Test
+    public void getBingoCards() {
+        assertNotNull(bingoMill.bingoCards);
+    }
+
+    @Test
+    public void addDrawNumber() {
+        assertEquals("", bingoMill.getDrawNumbers());
+        bingoMill.addDrawNumber(10);
+        assertEquals("#10;", bingoMill.getDrawNumbers());
     }
 }

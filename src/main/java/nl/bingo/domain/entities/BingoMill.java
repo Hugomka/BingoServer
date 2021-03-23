@@ -11,8 +11,9 @@ public class BingoMill {
     protected UUID id;
 
     @OneToMany
-    public List<BingoCard> bingoCards = new ArrayList<>();
-    public String drawNumbers = "";
+    public List<BingoCard> bingoCards;
+
+    public String drawNumbers;
 
     public BingoMill() {}
 
@@ -22,25 +23,12 @@ public class BingoMill {
         return drawNumbers;
     }
 
-    public void createBingoCard(BingoUser bingoUser) {
-        bingoCards.add(new BingoCard(bingoUser));
-    }
-
-    public int drawNumber() {
-        Random random = new Random();
-        int drawNumber;
-        while(true) {
-            drawNumber = random.nextInt(75) + 1;
-            if (!drawNumbers.contains("#" + drawNumber + ";")) {
-                drawNumbers += ("#" + drawNumber + ";");
-                break;
-            }
-        }
-        return drawNumber;
-    }
-
     public List<BingoCard> getBingoCards() {
         return bingoCards;
+    }
+
+    public void addDrawNumber(long drawNumber) {
+        drawNumbers += "#" + drawNumber + ";";
     }
 }
 

@@ -6,6 +6,7 @@ import nl.bingo.services.BingoMillService;
 
 import java.util.UUID;
 
+@CrossOrigin(origins = {"http://localhost:4200","http://127.0.0.1:4200"})
 @RestController
 @RequestMapping("/api/bingoMill")
 public class BingoMillController {
@@ -23,7 +24,7 @@ public class BingoMillController {
 
     @GetMapping("/")
     public @ResponseBody
-    Iterable<BingoMill> getAllByBingoMill(BingoMill bingoMill) {
+    Iterable<BingoMill> getAll() {
         return bingoMillService.findAll();
     }
 

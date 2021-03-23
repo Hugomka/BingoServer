@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+@CrossOrigin(origins = {"http://localhost:4200","http://127.0.0.1:4200"})
 @RestController
-@RequestMapping("/api/bingouser")
+@RequestMapping("/api/bingoUser")
 public class BingoUserController {
     private final BingoUserService userService;
 

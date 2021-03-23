@@ -9,6 +9,6 @@ public class BingoUserBuilder extends BingoUser {
     public BingoUserBuilder(String username) {
         this.id = UUID.randomUUID();
         this.username = username;
-        this.backgroundColor = "#" + Integer.toHexString(Color.blue.getRGB());
+        this.backgroundColor = "#" + Integer.toHexString(Color.blue.getRGB()).substring(2);
     }
 }

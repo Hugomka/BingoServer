@@ -4,69 +4,70 @@ import nl.bingo.domain.builders.BingoUserBuilder;
 import nl.bingo.domain.entities.BingoMill;
 import nl.bingo.domain.entities.BingoUser;
 import nl.bingo.repos.BingoUserRepository;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
-import static java.util.Optional.ofNullable;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.times;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
+
 public class BingoUserServiceTest {
-    private BingoUser bingoUser1, bingoUser2;
+    private static final BingoUser[] bingoUsers = {
+        new BingoUserBuilder("BingoUserTest1"),
+        new BingoUserBuilder("BingoUserTest2")
+    };
+    
+    private BingoUserService bingoUserService;
+    private BingoUserRepository bingoUserRepository;
 
-    @InjectMocks
-    private BingoUserRepository userRepository;
-
-    @Mock
-    private BingoUserService userService;
-
-    @BeforeEach
+    @Before
     public void setUp() {
-        bingoUser1 = new BingoUserBuilder("BingoUserTest1");
-        bingoUser2 = new BingoUserBuilder("BingoUserTest2");
+        bingoUserRepository = mock(BingoUserRepository.class);
+        bingoUserService = new BingoUserServiceImpl(bingoUserRepository);
     }
 
-    @AfterEach
+    @After
     public void tearDown() {
     }
 
     @Test
     public void save() {
-        Mockito.when(userRepository.save(bingoUser1)).thenReturn(bingoUser1);
-        BingoUser savedBingoUser = userService.save(bingoUser1);
-        assertEquals(bingoUser1, savedBingoUser);
+        BingoUser bingoUser3 = new BingoUserBuilder("BingoUserTest3");
+        when(bingoUserRepository.save(bingoUser3)).thenReturn(bingoUser3);
+        BingoUser getBingoUser = bingoUserService.save(bingoUser3);
+        verify(bingoUserRepository, times(1)).save(bingoUser3);
+        assertEquals(bingoUser3, getBingoUser);
     }
 
     @Test
     public void findAllByBingoMill() {
         BingoMill bingoMill = new BingoMill();
-        Iterable<BingoUser> users = Arrays.asList(bingoUser1, bingoUser2);
-        Mockito.when(userRepository.findAllByBingoMillId(bingoMill.getId())).thenReturn(users);
-        Iterable<BingoUser> foundUsers = userService.findAllByBingoMill(bingoMill);
-        assertIterableEquals(users, foundUsers);
+        when(bingoUserRepository.findAllByBingoMillId(bingoMill.getId())).thenReturn(Arrays.asList(bingoUsers));
+        List<BingoUser> foundUsers = (List<BingoUser>) bingoUserService.findAllByBingoMill(bingoMill);
+        verify(bingoUserRepository, times(1)).findAllByBingoMillId(bingoMill.getId());
+        assertArrayEquals(bingoUsers, foundUsers.toArray());
     }
 
     @Test
-    void findById() {
-        Mockito.when(userRepository.findById(bingoUser1.getId())).thenReturn(ofNullable(bingoUser1));
-        BingoUser foundBingoUser = userService.findById(bingoUser1.getId());
+    public void findById() {
+        BingoUser bingoUser1 = bingoUsers[0];
+        when(bingoUserRepository.findById(bingoUser1.getId())).thenReturn(Optional.of(bingoUser1));
+        BingoUser foundBingoUser = bingoUserService.findById(bingoUser1.getId());
+        verify(bingoUserRepository, times(1)).findById(bingoUser1.getId());
         assertEquals(bingoUser1, foundBingoUser);
     }
 
     @Test
-    void deleteById() {
-        Mockito.when(userRepository.findById(bingoUser1.getId())).thenReturn(ofNullable(bingoUser1));
-        boolean deleted = userService.deleteById(bingoUser1.getId());
-        Mockito.verify(userRepository, times(1)).deleteById(bingoUser1.getId());
+    public void deleteById() {
+        BingoUser bingoUser1 = bingoUsers[0];
+        when(bingoUserRepository.findById(bingoUser1.getId())).thenReturn(Optional.of(bingoUser1));
+        boolean deleted = bingoUserService.deleteById(bingoUser1.getId());
+        verify(bingoUserRepository, times(1)).deleteById(bingoUser1.getId());
         assertTrue(deleted);
     }
 }

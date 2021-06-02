@@ -7,7 +7,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.util.UUID;
 
-@Entity
+@Entity(name = "bingo_user")
 public class BingoUser {
     @Id
     @GeneratedValue(generator = "UUID")

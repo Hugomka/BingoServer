@@ -3,7 +3,7 @@ package nl.bingo.domain.entities;
 import javax.persistence.*;
 import java.util.*;
 
-@Entity
+@Entity(name = "bingo_mill")
 public class BingoMill {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

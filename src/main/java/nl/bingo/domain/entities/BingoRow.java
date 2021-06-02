@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Random;
 import java.util.UUID;
 
-@Entity
+@Entity(name = "bingo_row")
 public class BingoRow {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,6 +23,8 @@ public class BingoRow {
     public String getNumbers() {
         return numbers;
     }
+
+    public BingoCard getBingoCard() { return bingoCard; }
 
     @Override
     public String toString() {

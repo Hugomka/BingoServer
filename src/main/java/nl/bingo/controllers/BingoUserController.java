@@ -17,7 +17,7 @@ public class BingoUserController {
         this.userService = userService;
     }
 
-    @PostMapping("/")
+    @PostMapping("/create")
     public @ResponseBody
     BingoUser create(@RequestBody BingoUser bingoUser) {
         return userService.save(bingoUser);

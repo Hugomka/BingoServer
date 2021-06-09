@@ -1,9 +1,9 @@
-package nl.bingo.services;
+package com.bingo.services;
 
-import nl.bingo.domain.builders.BingoUserBuilder;
-import nl.bingo.domain.entities.BingoMill;
-import nl.bingo.domain.entities.BingoUser;
-import nl.bingo.repos.BingoUserRepository;
+import com.bingo.domain.builders.BingoUserBuilder;
+import com.bingo.domain.entities.BingoMill;
+import com.bingo.domain.entities.BingoUser;
+import com.bingo.repos.BingoUserRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

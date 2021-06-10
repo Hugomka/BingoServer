@@ -13,11 +13,11 @@ public class BingoCard {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy ="org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", updatable = false, unique = true, length = 36)
+    @Column(updatable = false, unique = true, length = 36)
     @Type(type = "uuid-char")
     protected UUID id;
 
-    @OneToMany(mappedBy = "bingoCard", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     protected List<BingoRow> bingoRows = new ArrayList<>();
 
     @ManyToOne

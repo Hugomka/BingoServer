@@ -45,11 +45,11 @@ public class BingoUserServiceTest {
     }
 
     @Test
-    public void findAllByBingoMill() {
+    public void findAll() {
         BingoMill bingoMill = new BingoMill();
-        when(bingoUserRepository.findAllByBingoMillId(bingoMill.getId())).thenReturn(Arrays.asList(bingoUsers));
-        List<BingoUser> foundUsers = (List<BingoUser>) bingoUserService.findAllByBingoMill(bingoMill);
-        verify(bingoUserRepository, times(1)).findAllByBingoMillId(bingoMill.getId());
+        when(bingoUserRepository.findAll()).thenReturn(Arrays.asList(bingoUsers));
+        List<BingoUser> foundUsers = (List<BingoUser>) bingoUserService.findAll();
+        verify(bingoUserRepository, times(1)).findAll();
         assertArrayEquals(bingoUsers, foundUsers.toArray());
     }
 

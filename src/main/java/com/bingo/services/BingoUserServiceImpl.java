@@ -1,6 +1,5 @@
 package com.bingo.services;
 
-import com.bingo.domain.entities.BingoMill;
 import com.bingo.domain.entities.BingoUser;
 import com.bingo.repos.BingoUserRepository;
 import org.springframework.stereotype.Service;
@@ -21,8 +20,8 @@ public class BingoUserServiceImpl implements BingoUserService {
     }
 
     @Override
-    public Iterable<BingoUser> findAllByBingoMill(BingoMill bingoMill) {
-        return userRepository.findAllByBingoMillId(bingoMill.getId());
+    public Iterable<BingoUser> findAll() {
+        return userRepository.findAll();
     }
 
     @Override

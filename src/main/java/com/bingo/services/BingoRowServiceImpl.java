@@ -5,16 +5,11 @@ import com.bingo.domain.entities.BingoRow;
 import com.bingo.repos.BingoRowRepository;
 import org.springframework.stereotype.Service;
 
-import java.security.SecureRandom;
-import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 public class BingoRowServiceImpl implements BingoRowService {
     private final BingoRowRepository bingoRowRepository;
-    private List<BingoRow> bingoRows;
-    private Random random = new SecureRandom();
 
     public BingoRowServiceImpl(BingoRowRepository bingoRowRepository) {
         this.bingoRowRepository = bingoRowRepository;
@@ -23,10 +18,15 @@ public class BingoRowServiceImpl implements BingoRowService {
     @Override
     public BingoRow getNewRandomBingoRow() {
         BingoRow bingoRow = null;
-        Optional<BingoRow> findBingoRow = Optional.empty();
-        while (findBingoRow.isEmpty()) {
+        Optional<BingoRow> findBingoRow;
+        int count = 0;
+        while (count < 75) {
             bingoRow = new BingoRowBuilder();
             findBingoRow = bingoRowRepository.findByNumbers(bingoRow.getNumbers());
+            if (findBingoRow.isEmpty()) {
+                break;
+            }
+            count++;
         }
         return bingoRowRepository.save(bingoRow);
     }

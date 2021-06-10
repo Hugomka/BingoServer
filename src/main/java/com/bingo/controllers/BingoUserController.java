@@ -13,7 +13,7 @@ import java.util.UUID;
 public class BingoUserController {
     private final BingoUserService userService;
 
-    public BingoUserController(BingoUserService userService) {
+    public BingoUserController(BingoUserService userService/*, BingoLogic bingoLogic*/) {
         this.userService = userService;
     }
 
@@ -24,8 +24,8 @@ public class BingoUserController {
     }
 
     @GetMapping("/")
-    public @ResponseBody Iterable<BingoUser> getAllByBingoMill(BingoMill bingoMill) {
-        return userService.findAllByBingoMill(bingoMill);
+    public @ResponseBody Iterable<BingoUser> getAll() {
+        return userService.findAll();
     }
 
     @GetMapping("/{id}")

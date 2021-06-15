@@ -1,6 +1,7 @@
 package com.bingo.controllers;
 
 import com.bingo.domain.entities.BingoCard;
+import com.bingo.domain.objects.BingoCardDTO;
 import com.bingo.services.BingoCardService;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +19,8 @@ public class BingoCardController {
 
     @PostMapping("/create")
     public @ResponseBody
-    BingoCard create(@RequestBody BingoCard bingoCard) {
-        return bingoCardService.save(bingoCard);
+    BingoCard create(@RequestBody BingoCardDTO bingoCardDTO) {
+        return bingoCardService.save(BingoCard.create(bingoCardDTO));
     }
 
     @PatchMapping("/update")

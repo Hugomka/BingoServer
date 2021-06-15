@@ -1,5 +1,6 @@
 package com.bingo.domain.entities;
 
+import com.bingo.domain.objects.BingoCardDTO;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -29,6 +30,13 @@ public class BingoCard {
     protected BingoUser bingoUser;
 
     protected BingoCard() {}
+
+    public static BingoCard create(BingoCardDTO bingoCardDTO) {
+        var bingoCard = new BingoCard();
+        bingoCard.bingoUser = BingoUser.create(bingoCardDTO.getBingoUserId());
+        bingoCard.bingoMill = BingoMill.create(bingoCardDTO.getBingoMillId());
+        return bingoCard;
+    }
 
     public UUID getId() {
         return id;

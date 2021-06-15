@@ -18,8 +18,8 @@ public class BingoMillController {
 
     @PostMapping("/create")
     public @ResponseBody
-    BingoMill create(@RequestBody BingoMill bingoMill) {
-        return bingoMillService.save(bingoMill);
+    BingoMill create() {
+        return bingoMillService.create();
     }
 
     @GetMapping("/")

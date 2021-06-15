@@ -1,6 +1,7 @@
 package com.bingo.services;
 
 import com.bingo.domain.entities.BingoMill;
+import com.bingo.logic.BingoLogic;
 import com.bingo.repos.BingoMillRepository;
 import org.springframework.stereotype.Service;
 
@@ -9,9 +10,16 @@ import java.util.UUID;
 @Service
 public class BingoMillServiceImpl implements BingoMillService {
     private final BingoMillRepository bingoMillRepository;
+    private final BingoLogic bingoLogic = BingoLogic.init();
 
     public BingoMillServiceImpl(BingoMillRepository bingoMillRepository) {
         this.bingoMillRepository = bingoMillRepository;
+    }
+
+    @Override
+    public BingoMill create() {
+        bingoLogic.createBingoMill();
+        return bingoMillRepository.save(bingoLogic.getBingoMill());
     }
 
     @Override

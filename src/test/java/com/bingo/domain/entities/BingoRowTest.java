@@ -1,42 +1,38 @@
 package com.bingo.domain.entities;
 
 import com.bingo.domain.builders.BingoRowBuilder;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class BingoRowTest {
+
+class BingoRowTest {
 
     private BingoRow bingoRow;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         bingoRow = new BingoRowBuilder();
     }
-
-    @After
-    public void tearDown() {
-    }
-
+    
     @Test
-    public void getId() {
+    void getId() {
         UUID id = bingoRow.getId();
         assertNotNull(id);
     }
 
     @Test
-    public void getNumbers() {
+    void getNumbers() {
         String numbers = bingoRow.getNumbers();
         String[] split = numbers.split(",");
         assertEquals(5, split.length);
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         String s = bingoRow.toString();
         assertTrue(s.contains(bingoRow.getNumbers()));
     }

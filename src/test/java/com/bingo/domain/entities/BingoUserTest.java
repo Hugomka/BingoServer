@@ -2,46 +2,41 @@ package com.bingo.domain.entities;
 
 import com.bingo.domain.builders.BingoUserBuilder;
 import com.bingo.domain.enums.BingoUserRole;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class BingoUserTest {
+class BingoUserTest {
     private BingoUser bingoUser;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         bingoUser = new BingoUserBuilder("BingoUserTest");
     }
 
-    @After
-    public void tearDown() {
-    }
-
     @Test
-    public void getId() {
+    void getId() {
         assertNotNull(bingoUser.getId());
     }
 
     @Test
-    public void getUsername() {
+    void getUsername() {
         assertEquals("BingoUserTest", bingoUser.getUsername());
     }
 
     @Test
-    public void getBackgroundColor() {
+    void getBackgroundColor() {
         assertEquals("#0000ff", bingoUser.getBackgroundColor());
     }
 
     @Test
-    public void getUserRole() {
+    void getUserRole() {
         assertEquals(BingoUserRole.Player, bingoUser.getUserRole());
     }
 
     @Test
-    public void switchUserRole() {
+    void switchUserRole() {
         assertEquals(BingoUserRole.Player, bingoUser.getUserRole());
         bingoUser.switchUserRole();
         assertEquals(BingoUserRole.Master, bingoUser.getUserRole());

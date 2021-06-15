@@ -2,23 +2,29 @@ package com.bingo.logic;
 
 import com.bingo.domain.entities.BingoCard;
 import com.bingo.domain.entities.BingoMill;
+import com.bingo.domain.entities.BingoRow;
 import com.bingo.domain.entities.BingoUser;
-import com.bingo.services.BingoCardService;
-import com.bingo.services.BingoUserService;
 import org.springframework.stereotype.Component;
 
+import java.security.SecureRandom;
 import java.util.*;
 
 @Component
 public class BingoLogic {
+    private static BingoLogic bingoLogic = new BingoLogic();
+
+    public static BingoLogic init() {
+        return bingoLogic;
+    }
+
     private long level = 1L;
     private BingoMill bingoMill;
     private List<BingoCard> bingoCards;
     private BingoUser master;
 
     private boolean pause = true;
-    private Timer timer = new Timer();
-    private TimerTask task = new DrawNumberTask();
+    private final Timer timer = new Timer();
+    private final TimerTask task = new DrawNumberTask();
 
     /**
      * Create a bingo mill for the game, only if it doesn't exist yet.
@@ -96,7 +102,7 @@ public class BingoLogic {
      * @return drawn number
      */
     public long drawNumber() {
-        Random random = new Random();
+        var random = new SecureRandom();
         long drawNumber;
         while(true) {
             drawNumber = random.nextInt(75) + 1;
@@ -136,5 +142,9 @@ public class BingoLogic {
             return true;
         }
         return false;
+    }
+
+    public BingoMill getBingoMill() {
+        return bingoMill;
     }
 }

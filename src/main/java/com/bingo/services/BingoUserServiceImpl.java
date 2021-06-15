@@ -1,6 +1,8 @@
 package com.bingo.services;
 
 import com.bingo.domain.entities.BingoUser;
+import com.bingo.domain.enums.BingoUserRole;
+import com.bingo.logic.BingoLogic;
 import com.bingo.repos.BingoUserRepository;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +11,7 @@ import java.util.UUID;
 @Service
 public class BingoUserServiceImpl implements BingoUserService {
     private final BingoUserRepository userRepository;
+    private final BingoLogic bingoLogic = BingoLogic.init();
 
     public BingoUserServiceImpl(BingoUserRepository userRepository) {
         this.userRepository = userRepository;
@@ -16,6 +19,11 @@ public class BingoUserServiceImpl implements BingoUserService {
 
     @Override
     public BingoUser save(BingoUser bingoUser) {
+        if (bingoUser.getUserRole() == BingoUserRole.Master
+                && !bingoLogic.becomeMaster(bingoUser)) {
+            bingoUser.switchUserRole();
+            return bingoUser;
+        }
         return userRepository.save(bingoUser);
     }
 

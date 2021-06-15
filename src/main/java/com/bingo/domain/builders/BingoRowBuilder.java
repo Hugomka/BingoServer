@@ -2,7 +2,7 @@ package com.bingo.domain.builders;
 
 import com.bingo.domain.entities.BingoRow;
 
-import java.util.Random;
+import java.security.SecureRandom;
 import java.util.UUID;
 
 public class BingoRowBuilder extends BingoRow {
@@ -12,7 +12,7 @@ public class BingoRowBuilder extends BingoRow {
     }
 
     private String generate() {
-        Random random = new Random();
+        var random = new SecureRandom();
         int b = random.nextInt(15) + 1;
         int i = random.nextInt(15) + 16;
         int n = random.nextInt(15) + 31;

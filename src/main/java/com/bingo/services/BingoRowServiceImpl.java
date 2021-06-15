@@ -16,18 +16,7 @@ public class BingoRowServiceImpl implements BingoRowService {
     }
 
     @Override
-    public BingoRow getNewRandomBingoRow() {
-        BingoRow bingoRow = null;
-        Optional<BingoRow> findBingoRow;
-        int count = 0;
-        while (count < 75) {
-            bingoRow = new BingoRowBuilder();
-            findBingoRow = bingoRowRepository.findByNumbers(bingoRow.getNumbers());
-            if (findBingoRow.isEmpty()) {
-                break;
-            }
-            count++;
-        }
+    public BingoRow save(BingoRow bingoRow) {
         return bingoRowRepository.save(bingoRow);
     }
 

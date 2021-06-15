@@ -7,5 +7,4 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface BingoRowRepository extends CrudRepository<BingoRow, UUID> {
-    Optional<BingoRow> findByNumbers(String numbers);
 }

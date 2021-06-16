@@ -1,6 +1,7 @@
 package com.bingo.domain.entities;
 
 import com.bingo.domain.enums.BingoUserRole;
+import com.bingo.domain.objects.BingoUserDTO;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -25,6 +26,14 @@ public class BingoUser {
     public static BingoUser create(UUID bingoUserId) {
         var bingoUser = new BingoUser();
         bingoUser.id = bingoUserId;
+        return bingoUser;
+    }
+
+    public static BingoUser create(BingoUserDTO bingoUserDTO) {
+        var bingoUser = new BingoUser();
+        bingoUser.id = UUID.fromString(bingoUserDTO.getId());
+        bingoUser.username = bingoUser.getUsername();
+        bingoUser.backgroundColor = bingoUser.getBackgroundColor();
         return bingoUser;
     }
 

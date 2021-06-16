@@ -1,7 +1,7 @@
 package com.bingo.controllers;
 
-import com.bingo.domain.entities.BingoMill;
 import com.bingo.domain.entities.BingoUser;
+import com.bingo.domain.objects.BingoUserDTO;
 import com.bingo.services.BingoUserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +19,8 @@ public class BingoUserController {
 
     @PostMapping("/create")
     public @ResponseBody
-    BingoUser create(@RequestBody BingoUser bingoUser) {
+    BingoUser create(@RequestBody BingoUserDTO bingoUserDTO) {
+        BingoUser bingoUser = BingoUser.create(bingoUserDTO);
         return userService.save(bingoUser);
     }
 

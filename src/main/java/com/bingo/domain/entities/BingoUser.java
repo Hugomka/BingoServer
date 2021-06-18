@@ -1,10 +1,14 @@
 package com.bingo.domain.entities;
 
 import com.bingo.domain.enums.BingoUserRole;
+import com.bingo.domain.objects.BingoUserDTO;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.UUID;
 
 @Entity(name = "bingo_user")
@@ -18,6 +22,20 @@ public class BingoUser {
     protected String username;
     protected String backgroundColor;
     protected BingoUserRole userRole = BingoUserRole.Player;
+
+    public static BingoUser create(UUID bingoUserId) {
+        var bingoUser = new BingoUser();
+        bingoUser.id = bingoUserId;
+        return bingoUser;
+    }
+
+    public static BingoUser create(BingoUserDTO bingoUserDTO) {
+        var bingoUser = new BingoUser();
+        bingoUser.id = UUID.fromString(bingoUserDTO.getId());
+        bingoUser.username = bingoUser.getUsername();
+        bingoUser.backgroundColor = bingoUser.getBackgroundColor();
+        return bingoUser;
+    }
 
     public UUID getId() {
         return id;

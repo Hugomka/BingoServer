@@ -11,7 +11,7 @@ public class BingoCardBuilder extends BingoCard {
         this.id = UUID.randomUUID();
         this.bingoUser = bingoUser;
         this.bingoRows = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (var i = 0; i < 5; i++) {
             this.bingoRows.add(new BingoRowBuilder());
         }
     }

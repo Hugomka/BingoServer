@@ -1,24 +1,30 @@
 package com.bingo.logic;
 
-import com.bingo.domain.builders.BingoCardBuilder;
 import com.bingo.domain.entities.BingoCard;
 import com.bingo.domain.entities.BingoMill;
+import com.bingo.domain.entities.BingoRow;
 import com.bingo.domain.entities.BingoUser;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
+import java.security.SecureRandom;
 import java.util.*;
 
-@Service
+@Component
 public class BingoLogic {
+    private static BingoLogic bingoLogic = new BingoLogic();
+
+    public static BingoLogic init() {
+        return bingoLogic;
+    }
+
     private long level = 1L;
     private BingoMill bingoMill;
     private List<BingoCard> bingoCards;
     private BingoUser master;
-    private List<BingoUser> participants;
 
     private boolean pause = true;
-    private Timer timer = new Timer();
-    private TimerTask task = new DrawNumberTask();
+    private final Timer timer = new Timer();
+    private final TimerTask task = new DrawNumberTask();
 
     /**
      * Create a bingo mill for the game, only if it doesn't exist yet.
@@ -46,26 +52,13 @@ public class BingoLogic {
     }
 
     /**
-     * Joining the bingo game.
-     * The participant will enter the participant list and get a bingo card.
-     *
-     * @param participant Bingo user joining the bingo game.
-     */
-    public void join(BingoUser participant) {
-        if (!participants.contains(participant)) {
-            participants.add(participant);
-        }
-    }
-
-    /**
      * Checking if the participant has a bingo.
      *
-     * @param participant participant who called for a bingo.
+     * @param bingoCard bingoCard with bingo.
      * @return true if it is a bingo.
      */
-    public boolean checkBingo(BingoUser participant) {
-        BingoCard card = findCard(participant);
-        long count = countBingoRows(card);
+    public boolean checkBingo(BingoCard bingoCard) {
+        long count = countBingoRows(bingoCard);
         return level >= count;
     }
 
@@ -82,19 +75,6 @@ public class BingoLogic {
                         .split(","))
                         .filter(drawNumbers::contains).count())
                 .filter(result -> result == 5).count();
-    }
-
-    /**
-     * Finding participant's bingo card.
-     *
-     * @param participant an owner
-     * @return participant's bingo card
-     */
-    public BingoCard findCard(BingoUser participant) {
-        return bingoCards.stream()
-                .filter(card -> card.getUser().getId() == participant.getId())
-                .findFirst()
-                .orElse(null);
     }
 
     /**
@@ -122,7 +102,7 @@ public class BingoLogic {
      * @return drawn number
      */
     public long drawNumber() {
-        Random random = new Random();
+        var random = new SecureRandom();
         long drawNumber;
         while(true) {
             drawNumber = random.nextInt(75) + 1;
@@ -135,7 +115,7 @@ public class BingoLogic {
     }
 
     /**
-     * Go to the next level
+     * Go to the next level.
      *
      * @return current level
      */
@@ -148,12 +128,23 @@ public class BingoLogic {
     }
 
     /**
-     * Create a new bingoCard
+     * Join the bingo with bingo card to the bingo card list.
      *
-     * @param user user
-     * @return bingoCard
+     * @param bingoCard bingo card
+     * @return true if the bingo card is added to the list
      */
-    public BingoCard createBingoCard(BingoUser user) {
-        return new BingoCardBuilder(user);
+    public boolean joinBingo(BingoCard bingoCard) {
+        if (bingoCards == null) {
+            bingoCards = new ArrayList<>();
+        }
+        if (bingoCards.contains(bingoCard)) {
+            this.bingoCards.add(bingoCard);
+            return true;
+        }
+        return false;
+    }
+
+    public BingoMill getBingoMill() {
+        return bingoMill;
     }
 }

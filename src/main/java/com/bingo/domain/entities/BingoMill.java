@@ -17,6 +17,12 @@ public class BingoMill {
 
     public BingoMill() {}
 
+    public static BingoMill create(UUID bingoMillId) {
+        var bingoMill = new BingoMill();
+        bingoMill.id = bingoMillId;
+        return bingoMill;
+    }
+
     public UUID getId() { return id; }
 
     public String getDrawNumbers() {

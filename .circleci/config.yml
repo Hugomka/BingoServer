@@ -1,0 +1,31 @@
+version: 2.1
+
+jobs:
+  test:
+    docker:
+      - image: circleci/openjdk:stretch
+        auth:
+          username: hugomka
+          password: $DOCKERHUB_PASSWORD
+    steps:
+      - checkout
+      - run: mvn test
+      - store_artifacts:
+          path: target/site/jacoco/index.html
+
+  build:
+    docker:
+      - image: circleci/openjdk:stretch
+        auth:
+          username: hugomka
+          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+    steps:
+      - checkout
+      - run: mvn -Dmaven.test.skip=true package
+
+workflows:
+  version: 2
+
+  test-with-store-artifacts:
+    jobs:
+      - test

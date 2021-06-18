@@ -5,6 +5,8 @@ import com.bingo.domain.entities.BingoMill;
 import java.util.UUID;
 
 public interface BingoMillService {
+    BingoMill create();
+
     BingoMill save(BingoMill bingoMill);
 
     Iterable<BingoMill> findAll();

@@ -1,5 +1,6 @@
 package com.bingo.domain.entities;
 
+import com.bingo.domain.objects.BingoCardDTO;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -13,11 +14,11 @@ public class BingoCard {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy ="org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", updatable = false, unique = true, length = 36)
+    @Column(updatable = false, unique = true, length = 36)
     @Type(type = "uuid-char")
     protected UUID id;
 
-    @OneToMany(mappedBy = "bingoCard", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     protected List<BingoRow> bingoRows = new ArrayList<>();
 
     @ManyToOne
@@ -29,6 +30,13 @@ public class BingoCard {
     protected BingoUser bingoUser;
 
     protected BingoCard() {}
+
+    public static BingoCard create(BingoCardDTO bingoCardDTO) {
+        var bingoCard = new BingoCard();
+        bingoCard.bingoUser = BingoUser.create(bingoCardDTO.getBingoUserId());
+        bingoCard.bingoMill = BingoMill.create(bingoCardDTO.getBingoMillId());
+        return bingoCard;
+    }
 
     public UUID getId() {
         return id;

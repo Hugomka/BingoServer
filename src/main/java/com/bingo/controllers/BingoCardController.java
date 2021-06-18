@@ -1,8 +1,7 @@
 package com.bingo.controllers;
 
 import com.bingo.domain.entities.BingoCard;
-import com.bingo.domain.entities.BingoUser;
-import com.bingo.logic.BingoLogic;
+import com.bingo.domain.objects.BingoCardDTO;
 import com.bingo.services.BingoCardService;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,21 +12,18 @@ import java.util.UUID;
 @RequestMapping("/api/bingoCard")
 public class BingoCardController {
     private final BingoCardService bingoCardService;
-    private final BingoLogic bingoLogic;
 
-    public BingoCardController(BingoCardService bingoCardService, BingoLogic bingoLogic) {
+    public BingoCardController(BingoCardService bingoCardService) {
         this.bingoCardService = bingoCardService;
-        this.bingoLogic = bingoLogic;
     }
 
-    @GetMapping("/")
+    @PostMapping("/create")
     public @ResponseBody
-    BingoCard create(@RequestBody BingoUser bingoUser) {
-        BingoCard bingoCard = bingoLogic.createBingoCard(bingoUser);
-        return bingoCardService.save(bingoCard);
+    BingoCard create(@RequestBody BingoCardDTO bingoCardDTO) {
+        return bingoCardService.save(BingoCard.create(bingoCardDTO));
     }
 
-    @PatchMapping("/")
+    @PatchMapping("/update")
     public @ResponseBody BingoCard update(@RequestBody BingoCard bingoCard) {
         return bingoCardService.save(bingoCard);
     }

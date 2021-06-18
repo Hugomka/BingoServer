@@ -1,7 +1,7 @@
 package com.bingo.controllers;
 
-import com.bingo.domain.entities.BingoMill;
 import com.bingo.domain.entities.BingoUser;
+import com.bingo.domain.objects.BingoUserDTO;
 import com.bingo.services.BingoUserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,19 +13,20 @@ import java.util.UUID;
 public class BingoUserController {
     private final BingoUserService userService;
 
-    public BingoUserController(BingoUserService userService) {
+    public BingoUserController(BingoUserService userService/*, BingoLogic bingoLogic*/) {
         this.userService = userService;
     }
 
     @PostMapping("/create")
     public @ResponseBody
-    BingoUser create(@RequestBody BingoUser bingoUser) {
+    BingoUser create(@RequestBody BingoUserDTO bingoUserDTO) {
+        BingoUser bingoUser = BingoUser.create(bingoUserDTO);
         return userService.save(bingoUser);
     }
 
     @GetMapping("/")
-    public @ResponseBody Iterable<BingoUser> getAllByBingoMill(BingoMill bingoMill) {
-        return userService.findAllByBingoMill(bingoMill);
+    public @ResponseBody Iterable<BingoUser> getAll() {
+        return userService.findAll();
     }
 
     @GetMapping("/{id}")

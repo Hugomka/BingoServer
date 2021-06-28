@@ -2,8 +2,9 @@ package com.bingo.logic;
 
 import com.bingo.domain.entities.BingoCard;
 import com.bingo.domain.entities.BingoMill;
-import com.bingo.domain.entities.BingoRow;
 import com.bingo.domain.entities.BingoUser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;
@@ -26,13 +27,20 @@ public class BingoLogic {
     private final Timer timer = new Timer();
     private final TimerTask task = new DrawNumberTask();
 
+    private final Logger logger = LoggerFactory.getLogger(BingoLogic.class);
+
     /**
-     * Create a bingo mill for the game, only if it doesn't exist yet.
+     * Create a bingo mill for the game, only if the bingo mill doesn't exist yet.
      */
-    public void createBingoMill() {
-        if (bingoMill == null) {
-            bingoMill = new BingoMill();
-            timer.schedule(task, 0L);
+    public void openBingoMill(BingoMill bingoMill) {
+        if (level > 5) {
+            bingoLogic = new BingoLogic();
+            logger.warn(String.format("The bingo game was already over. The bingo mill id %s is invalid.", bingoMill.getId()));
+        }
+        if (this.bingoMill == null) {
+            this.bingoMill = bingoMill;
+            timer.schedule(task, 0L,15000L);
+            logger.info("The bingo game is starting now.");
         }
     }
 
@@ -46,8 +54,10 @@ public class BingoLogic {
     public boolean becomeMaster(BingoUser bingoUser) {
         if (master == null) {
             master = bingoUser;
+            logger.info(bingoUser.getUsername() + " is a bingo master now.");
             return true;
         }
+        logger.warn("There is already a bingo master and that is " + master.getUsername() + ".");
         return false;
     }
 
@@ -59,7 +69,14 @@ public class BingoLogic {
      */
     public boolean checkBingo(BingoCard bingoCard) {
         long count = countBingoRows(bingoCard);
-        return level >= count;
+        if (level < count) {
+            logger.warn(String.format("Alas, that is no Bingo! %s made a mistake with the bingo call at the level %d.",
+                    bingoCard.getUser().getUsername(), level));
+            return false;
+        }
+        logger.info(String.format("That is Bingo! The winner of the level %d  is %s.",
+                level, bingoCard.getUser().getUsername()));
+        return true;
     }
 
     /**
@@ -87,11 +104,13 @@ public class BingoLogic {
         if (pause) {
             try {
                 timer.wait();
+                logger.info("The bingo game is paused.");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         } else {
             timer.notify();
+            logger.info("The bingo game is running.");
         }
         return pause;
     }
@@ -101,17 +120,36 @@ public class BingoLogic {
      *
      * @return drawn number
      */
-    public long drawNumber() {
-        var random = new SecureRandom();
-        long drawNumber;
-        while(true) {
-            drawNumber = random.nextInt(75) + 1;
-            if (!bingoMill.getDrawNumbers().contains("#" + drawNumber + ";")) {
-                bingoMill.addDrawNumber(drawNumber);
-                break;
+    public long drawNumber(UUID bingoMillId) {
+        try {
+            checkId(bingoMillId);
+            var random = new SecureRandom();
+            long drawNumber;
+            while (true) {
+                drawNumber = random.nextInt(75) + 1;
+                if (!bingoMill.getDrawNumbers().contains("#" + drawNumber + ";")) {
+                    bingoMill.addDrawNumber(drawNumber);
+                    break;
+                }
             }
+            logger.info(String.format("Just drew a number %d for bingo mill id: %s.", drawNumber, bingoMillId));
+            return drawNumber;
         }
-        return drawNumber;
+        catch (IllegalAccessException ex) {
+            return 0;
+        }
+    }
+
+    /**
+     * Check if the bingoMillId is still same.
+     * @param bingoMillId bingo mill id
+     */
+    private void checkId(UUID bingoMillId) throws IllegalAccessException {
+        if(!bingoMill.getId().equals(bingoMillId)) {
+            logger.warn(String.format("Bingo mill id is mismatched.\r\nExpected: %s\r\nActual: %s",
+                    bingoMillId, this.bingoMill.getId()));
+            throw new IllegalAccessException(String.format("Bingo mill ID %s is expired.", bingoMillId));
+        }
     }
 
     /**
@@ -121,8 +159,12 @@ public class BingoLogic {
      */
     public long nextLevel() {
         level++;
-        if (level > 4) {
+        if (level > 5) {
             timer.cancel();
+            logger.info("The bingo game is over.");
+        }
+        else {
+            logger.info(String.format("The bingo game level is %d.", level));
         }
         return level;
     }
@@ -137,14 +179,23 @@ public class BingoLogic {
         if (bingoCards == null) {
             bingoCards = new ArrayList<>();
         }
-        if (bingoCards.contains(bingoCard)) {
+        if (!bingoCards.contains(bingoCard)) {
             this.bingoCards.add(bingoCard);
+            logger.info(bingoCard.getUser().getUsername() + " just joined the bingo game.");
             return true;
         }
+        logger.warn(bingoCard.getUser().getUsername() + " already joined the bingo game.");
         return false;
     }
 
+    /**
+     * Get bingo mill
+     *
+     * @return bingo mill
+     */
     public BingoMill getBingoMill() {
+        logger.info("Returning the bingo mill to the client.");
         return bingoMill;
     }
+
 }

@@ -10,15 +10,15 @@ import java.util.UUID;
 @Service
 public class BingoMillServiceImpl implements BingoMillService {
     private final BingoMillRepository bingoMillRepository;
-    private final BingoLogic bingoLogic = BingoLogic.init();
+    private BingoLogic bingoLogic = BingoLogic.init();
 
     public BingoMillServiceImpl(BingoMillRepository bingoMillRepository) {
         this.bingoMillRepository = bingoMillRepository;
     }
 
     @Override
-    public BingoMill create() {
-        bingoLogic.createBingoMill();
+    public BingoMill open(BingoMill bingoMill) {
+        bingoLogic.openBingoMill(bingoMill);
         return bingoMillRepository.save(bingoLogic.getBingoMill());
     }
 
@@ -41,5 +41,10 @@ public class BingoMillServiceImpl implements BingoMillService {
     public boolean deleteById(UUID bingoMillId) {
         bingoMillRepository.deleteById(bingoMillId);
         return true;
+    }
+
+    @Override
+    public long draw(UUID bingoMillId) {
+        return bingoLogic.drawNumber(bingoMillId);
     }
 }

@@ -31,12 +31,12 @@ class BingoMillServiceTest {
     }
 
     @Test
-    void save() {
+    void open() {
         BingoLogic bingoLogic = BingoLogic.init();
-        bingoLogic.createBingoMill();
+        bingoLogic.openBingoMill(bingoMills[0]);
         BingoMill bingoMill1 = bingoLogic.getBingoMill();
         when(bingoMillRepository.save(bingoMill1)).thenReturn(bingoLogic.getBingoMill());
-        BingoMill getBingoMill1 = bingoMillService.create();
+        BingoMill getBingoMill1 = bingoMillService.open(bingoMills[0]);
         verify(bingoMillRepository, times(1)).save(bingoMill1);
         assertEquals(bingoMill1, getBingoMill1);
     }

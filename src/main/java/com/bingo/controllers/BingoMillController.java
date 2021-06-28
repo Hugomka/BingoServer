@@ -16,21 +16,24 @@ public class BingoMillController {
         this.bingoMillService = bingoMillService;
     }
 
-    @PostMapping("/create")
-    public @ResponseBody
-    BingoMill create() {
-        return bingoMillService.create();
+    @PostMapping("/open")
+    public @ResponseBody BingoMill open(@RequestBody BingoMill bingoMill) {
+        return bingoMillService.open(bingoMill);
     }
 
     @GetMapping("/")
-    public @ResponseBody
-    Iterable<BingoMill> getAll() {
+    public @ResponseBody Iterable<BingoMill> getAll() {
         return bingoMillService.findAll();
     }
 
     @GetMapping("/{id}")
     public @ResponseBody BingoMill get(@PathVariable(value = "id") UUID bingoMillId) {
         return bingoMillService.findById(bingoMillId);
+    }
+
+    @GetMapping("/{id}/draw")
+    public @ResponseBody long draw(@PathVariable(value = "id") UUID bingoMillId) {
+        return bingoMillService.draw(bingoMillId);
     }
 
     @PatchMapping("/update")

@@ -1,23 +1,17 @@
 package com.bingo.domain.objects;
 
+import com.bingo.domain.entities.BingoMill;
+import com.bingo.domain.entities.BingoUser;
+
 import java.util.UUID;
 
 public class BingoCardDTO {
-    private UUID bingoUserId;
-    private UUID bingoMillId;
+    private BingoUser bingoUser;
+    private BingoMill bingoMill;
 
-    protected BingoCardDTO() {}
-
-    public BingoCardDTO(UUID bingoUserId, UUID bingoMillId) {
-        this.bingoUserId = bingoUserId;
-        this.bingoMillId = bingoMillId;
+    public BingoUser getBingoUser() {
+        return bingoUser;
     }
 
-    public UUID getBingoUserId() {
-        return bingoUserId;
-    }
-
-    public UUID getBingoMillId() {
-        return bingoMillId;
-    }
+    public BingoMill getBingoMill() { return bingoMill; }
 }

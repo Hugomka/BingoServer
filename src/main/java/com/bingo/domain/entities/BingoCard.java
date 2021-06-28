@@ -33,8 +33,8 @@ public class BingoCard {
 
     public static BingoCard create(BingoCardDTO bingoCardDTO) {
         var bingoCard = new BingoCard();
-        bingoCard.bingoUser = BingoUser.create(bingoCardDTO.getBingoUserId());
-        bingoCard.bingoMill = BingoMill.create(bingoCardDTO.getBingoMillId());
+        bingoCard.bingoUser = bingoCardDTO.getBingoUser();
+        bingoCard.bingoMill = bingoCardDTO.getBingoMill();
         return bingoCard;
     }
 

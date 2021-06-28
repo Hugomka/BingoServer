@@ -31,9 +31,8 @@ public class BingoUser {
 
     public static BingoUser create(BingoUserDTO bingoUserDTO) {
         var bingoUser = new BingoUser();
-        bingoUser.id = UUID.fromString(bingoUserDTO.getId());
-        bingoUser.username = bingoUser.getUsername();
-        bingoUser.backgroundColor = bingoUser.getBackgroundColor();
+        bingoUser.username = bingoUserDTO.getUsername();
+        bingoUser.backgroundColor = bingoUserDTO.getBackgroundColor();
         return bingoUser;
     }
 

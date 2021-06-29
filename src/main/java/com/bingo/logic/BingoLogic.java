@@ -2,7 +2,9 @@ package com.bingo.logic;
 
 import com.bingo.domain.entities.BingoCard;
 import com.bingo.domain.entities.BingoMill;
+import com.bingo.domain.entities.BingoRow;
 import com.bingo.domain.entities.BingoUser;
+import com.bingo.repos.BingoRowRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -99,19 +101,20 @@ public class BingoLogic {
      *
      * @return true if the bingo game is paused
      */
-    public boolean togglePause() {
-        pause = !pause;
+    public boolean pause(boolean pause) {
         if (pause) {
             try {
                 timer.wait();
                 logger.info("The bingo game is paused.");
             } catch (InterruptedException e) {
                 e.printStackTrace();
+                pause = false;
             }
         } else {
-            timer.notify();
+            timer.notifyAll();
             logger.info("The bingo game is running.");
         }
+        this.pause = pause;
         return pause;
     }
 
@@ -198,4 +201,44 @@ public class BingoLogic {
         return bingoMill;
     }
 
+    /**
+     * Generate rows for bingo card. Also checking and adding rows in the database
+     *
+     * @param bingoCard bingo card
+     * @param bingoRowRepository bingo row repository
+     */
+    public void generateRows(BingoCard bingoCard, BingoRowRepository bingoRowRepository) {
+        List<BingoRow> bingoRows = new ArrayList<>();
+        List<Long> addedNumbers = new ArrayList<>();
+        while (bingoRows.size() < 5) {
+            BingoRow bingoRow;
+            while(true) {
+                long b = randomCorrectNumber(addedNumbers, 1L);
+                long i = randomCorrectNumber(addedNumbers,16L);
+                long n = randomCorrectNumber(addedNumbers, 31L);
+                long g = randomCorrectNumber(addedNumbers, 46L);
+                long o = randomCorrectNumber(addedNumbers, 61L);
+                String generatedNumbers = String.format("%d,%d,%d,%d,%d", b, i, n, g, o);
+                if (!bingoRowRepository.existsByNumbers(generatedNumbers)) {
+                    bingoRow = new BingoRow(generatedNumbers);
+                    break;
+                }
+            }
+            bingoRows.add(bingoRow);
+        }
+        bingoCard.setBingoRows(bingoRows);
+    }
+
+    private long randomCorrectNumber(List<Long> addedNumbers, long lowestNumber) {
+        var random = new SecureRandom();
+        long randomNum;
+        while (true) {
+            randomNum = random.nextInt(15) + lowestNumber;
+            if (!addedNumbers.contains(randomNum)) {
+                addedNumbers.add(randomNum);
+                break;
+            }
+        }
+        return randomNum;
+    }
 }

@@ -3,15 +3,16 @@ package com.bingo.domain.builders;
 import com.bingo.domain.entities.BingoRow;
 
 import java.security.SecureRandom;
+import java.util.List;
 import java.util.UUID;
 
 public class BingoRowBuilder extends BingoRow {
     public BingoRowBuilder() {
         this.id = UUID.randomUUID();
-        this.numbers = generate();
+        this.numbers = generateRows();
     }
 
-    private String generate() {
+    public String generateRows() {
         var random = new SecureRandom();
         int b = random.nextInt(15) + 1;
         int i = random.nextInt(15) + 16;

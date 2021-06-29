@@ -42,11 +42,23 @@ public class BingoCard {
         return id;
     }
 
+    public List<BingoRow> getBingoRows() {
+        return bingoRows;
+    }
+
+    public BingoMill getBingoMill() {
+        return bingoMill;
+    }
+
     public BingoUser getUser() {
         return bingoUser;
     }
 
-    public List<BingoRow> getBingoRows() {
-        return bingoRows;
+    public void setBingoRows(List<BingoRow> bingoRows) {
+        this.bingoRows = bingoRows;
+    }
+
+    public void setBingoMill(BingoMill bingoMill) {
+        this.bingoMill = bingoMill;
     }
 }

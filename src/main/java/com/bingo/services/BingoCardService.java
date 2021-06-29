@@ -6,11 +6,13 @@ import java.util.UUID;
 
 public interface BingoCardService {
 
-    BingoCard save(BingoCard bingoCard);
+    BingoCard update(BingoCard bingoCard);
 
     Iterable<BingoCard> findAll();
 
     BingoCard findById(UUID bingoCardId);
 
     boolean deleteById(UUID bingoCardId);
+
+    BingoCard create(BingoCard bingoCard);
 }

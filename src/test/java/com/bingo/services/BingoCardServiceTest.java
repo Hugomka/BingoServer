@@ -35,7 +35,7 @@ class BingoCardServiceTest {
     void saveTest() {
         var bingoCard3 = new BingoCardBuilder(new BingoUserBuilder("BingoUserTest4"));
         when(bingoCardRepository.save(bingoCard3)).thenReturn(bingoCard3);
-        BingoCard getBingoCard = bingoCardService.save(bingoCard3);
+        BingoCard getBingoCard = bingoCardService.update(bingoCard3);
         verify(bingoCardRepository, times(1)).save(bingoCard3);
         assertEquals(bingoCard3, getBingoCard);
     }

@@ -4,6 +4,7 @@ import com.bingo.domain.entities.BingoMill;
 import org.springframework.web.bind.annotation.*;
 import com.bingo.services.BingoMillService;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @CrossOrigin(origins = {"http://localhost:4200","http://127.0.0.1:4200"})
@@ -27,7 +28,8 @@ public class BingoMillController {
     }
 
     @GetMapping("/{id}")
-    public @ResponseBody BingoMill get(@PathVariable(value = "id") UUID bingoMillId) {
+    public @ResponseBody BingoMill get(@PathVariable(value = "id") UUID bingoMillId, @RequestParam(required = false) Optional<Boolean> pause) {
+        pause.ifPresent(bingoMillService::pause);
         return bingoMillService.findById(bingoMillId);
     }
 

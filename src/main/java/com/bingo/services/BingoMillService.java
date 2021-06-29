@@ -16,4 +16,6 @@ public interface BingoMillService {
     boolean deleteById(UUID bingoMillId);
 
     long draw(UUID bingoMillId);
+
+    void pause(boolean pause);
 }

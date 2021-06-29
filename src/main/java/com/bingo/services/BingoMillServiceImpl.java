@@ -10,7 +10,7 @@ import java.util.UUID;
 @Service
 public class BingoMillServiceImpl implements BingoMillService {
     private final BingoMillRepository bingoMillRepository;
-    private BingoLogic bingoLogic = BingoLogic.init();
+    private final BingoLogic bingoLogic = BingoLogic.init();
 
     public BingoMillServiceImpl(BingoMillRepository bingoMillRepository) {
         this.bingoMillRepository = bingoMillRepository;
@@ -46,5 +46,10 @@ public class BingoMillServiceImpl implements BingoMillService {
     @Override
     public long draw(UUID bingoMillId) {
         return bingoLogic.drawNumber(bingoMillId);
+    }
+
+    @Override
+    public void pause(boolean pause) {
+        bingoLogic.pause(pause);
     }
 }
